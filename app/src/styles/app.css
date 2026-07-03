@@ -1,0 +1,85 @@
+:root {
+  color: #e2e8f0;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 30%),
+    radial-gradient(circle at top right, rgba(245, 158, 11, 0.18), transparent 28%),
+    linear-gradient(180deg, #020617 0%, #0f172a 50%, #111827 100%);
+  color-scheme: dark;
+  font-family: 'Aptos', 'Segoe UI', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: inherit;
+}
+
+a {
+  text-decoration: none;
+}
+
+code {
+  color: #f8c455;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell__content {
+  flex: 1;
+  padding: clamp(1.5rem, 2.8vw, 3rem) 1rem 3rem;
+}
+
+.page-panel {
+  position: relative;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(2, 6, 23, 0.38);
+}
+
+.page-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background: rgba(56, 189, 248, 0.12);
+  color: #7dd3fc;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.btn-warning {
+  color: #08111f;
+}
+
+.form-control,
+.form-select {
+  background-color: rgba(2, 6, 23, 0.5);
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: rgba(245, 158, 11, 0.75);
+  box-shadow: 0 0 0 0.25rem rgba(245, 158, 11, 0.15);
+}

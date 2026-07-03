@@ -1,0 +1,32 @@
+.app-header {
+  backdrop-filter: blur(18px);
+  background: rgba(2, 6, 23, 0.68);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.app-brand {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.app-nav-link {
+  border-radius: 999px;
+  color: rgba(226, 232, 240, 0.78);
+  padding-inline: 0.9rem;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.app-nav-link:hover,
+.app-nav-link:focus-visible {
+  color: #ffffff;
+  background: rgba(56, 189, 248, 0.14);
+  transform: translateY(-1px);
+}
+
+.app-nav-link.active {
+  color: #08111f;
+  background: linear-gradient(135deg, #f8c455, #f59e0b);
+}
