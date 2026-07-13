@@ -1,0 +1,36 @@
+.game-view-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.game-view-card__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  margin-bottom: 0.9rem;
+  background: rgba(214, 172, 83, 0.16);
+  border: 1px solid rgba(214, 172, 83, 0.38);
+  color: #efcc7b;
+}
+
+.game-view-actions {
+  display: grid;
+  align-content: start;
+}
+
+.game-view-delete-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(159, 58, 48, 0.55);
+  color: #ffd8d0;
+  background: rgba(159, 58, 48, 0.16);
+  padding-block: 0.7rem;
+}
+
+.game-view-delete-btn:hover,
+.game-view-delete-btn:focus-visible {
+  border-color: rgba(239, 121, 105, 0.88);
+  background: rgba(159, 58, 48, 0.3);
+  color: #fff1ef;
+}

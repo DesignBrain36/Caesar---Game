@@ -1,0 +1,76 @@
+.games-page .games-summary-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.games-summary-card__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(214, 172, 83, 0.16);
+  border: 1px solid rgba(214, 172, 83, 0.38);
+  color: #efcc7b;
+  font-size: 1.1rem;
+  margin-bottom: 0.9rem;
+}
+
+.games-table-wrap {
+  border-radius: 1rem;
+  border: 1px solid rgba(214, 172, 83, 0.22);
+  overflow: hidden;
+}
+
+.games-table {
+  margin: 0;
+  color: #f7f1e4;
+  --bs-table-bg: transparent;
+  --bs-table-border-color: rgba(214, 172, 83, 0.16);
+}
+
+.games-table thead th {
+  background: rgba(20, 16, 18, 0.95);
+  color: #efcc7b;
+  border-bottom-color: rgba(214, 172, 83, 0.28);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.games-table tbody tr {
+  background: rgba(28, 22, 26, 0.58);
+}
+
+.games-table tbody tr:hover {
+  background: rgba(36, 28, 33, 0.82);
+}
+
+.games-table td,
+.games-table th {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  vertical-align: middle;
+}
+
+.games-table__date {
+  font-weight: 700;
+}
+
+.games-table__subtle {
+  font-size: 0.82rem;
+}
+
+.games-delete-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(159, 58, 48, 0.55);
+  color: #ffd8d0;
+  background: rgba(159, 58, 48, 0.16);
+}
+
+.games-delete-btn:hover,
+.games-delete-btn:focus-visible {
+  border-color: rgba(239, 121, 105, 0.88);
+  background: rgba(159, 58, 48, 0.3);
+  color: #fff1ef;
+}

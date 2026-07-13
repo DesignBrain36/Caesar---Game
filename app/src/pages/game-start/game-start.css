@@ -1,0 +1,10 @@
+.game-start-page {
+  min-height: 52vh;
+  display: grid;
+  place-items: center;
+}
+
+.game-start-card {
+  max-width: 42rem;
+  width: 100%;
+}

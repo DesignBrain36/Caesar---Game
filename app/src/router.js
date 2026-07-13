@@ -9,6 +9,16 @@ const routes = [
     requiresAuth: false,
   },
   {
+    pattern: /^\/Games\/?$/,
+    load: () => import('./pages/games/games.js'),
+    requiresAuth: true,
+  },
+  {
+    pattern: /^\/games\/?$/,
+    load: () => import('./pages/games/games.js'),
+    requiresAuth: true,
+  },
+  {
     pattern: /^\/login\/?$/,
     load: () => import('./pages/login/login.js'),
     requiresAuth: false,
@@ -19,8 +29,23 @@ const routes = [
     requiresAuth: true,
   },
   {
+    pattern: /^\/game\/start\/?$/,
+    load: () => import('./pages/game-start/game-start.js'),
+    requiresAuth: true,
+  },
+  {
+    pattern: /^\/game\/([^/]+)\/play\/?$/,
+    load: () => import('./pages/game-play/game-play.js'),
+    requiresAuth: true,
+  },
+  {
+    pattern: /^\/game\/([^/]+)\/view\/?$/,
+    load: () => import('./pages/game-view/game-view.js'),
+    requiresAuth: true,
+  },
+  {
     pattern: /^\/games\/([^/]+)\/?$/,
-    load: () => import('./pages/game-detail/game-detail.js'),
+    load: () => import('./pages/game-view/game-view.js'),
     requiresAuth: true,
   },
 ]

@@ -100,3 +100,7 @@ export function navigateTo(path, replace = false) {
 
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
+
+export function getSupabaseClient() {
+  return supabase
+}

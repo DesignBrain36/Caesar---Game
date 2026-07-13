@@ -1,0 +1,111 @@
+.game-play-page .play-question-card {
+  min-height: 100%;
+}
+
+.play-question-card__header h2 {
+  line-height: 1.25;
+}
+
+.play-answers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.play-answer-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(214, 172, 83, 0.24);
+  background: rgba(25, 20, 23, 0.72);
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.play-answer-choice:hover,
+.play-answer-choice:focus-within {
+  transform: translateY(-2px);
+  border-color: rgba(239, 204, 123, 0.55);
+  background: rgba(34, 26, 31, 0.86);
+}
+
+.play-answer-choice__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.play-answer-choice__marker {
+  width: 2rem;
+  height: 2rem;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(214, 172, 83, 0.18);
+  border: 1px solid rgba(214, 172, 83, 0.46);
+  color: #efcc7b;
+  font-weight: 700;
+}
+
+.play-answer-choice__text {
+  color: #f7f1e4;
+}
+
+.play-answer-choice:has(.play-answer-choice__input:checked) {
+  border-color: rgba(239, 204, 123, 0.86);
+  background: rgba(48, 35, 18, 0.78);
+}
+
+.game-play__status {
+  min-height: 1.4rem;
+  color: #ffe0da;
+}
+
+.game-play__status.is-success {
+  color: #dbffe2;
+}
+
+.game-play__status.is-error {
+  color: #ffe0da;
+}
+
+.game-play-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+}
+
+.game-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.8rem 0.85rem;
+  border-radius: 0.9rem;
+  background: rgba(25, 20, 23, 0.72);
+  border: 1px solid rgba(214, 172, 83, 0.18);
+}
+
+.game-stat-item__label {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e6d7b9;
+}
+
+.game-stat-item__value {
+  font-size: 1rem;
+  color: #fff4dd;
+}
+
+@media (max-width: 768px) {
+  .play-answers {
+    grid-template-columns: 1fr;
+  }
+}

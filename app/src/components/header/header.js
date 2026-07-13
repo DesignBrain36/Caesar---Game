@@ -3,16 +3,17 @@ import './header.css'
 const navigationItems = [
   { label: 'Home', href: '/' },
   { label: 'Login', href: '/login' },
+  { label: 'Games', href: '/Games' },
   { label: 'Dashboard', href: '/dashboard' },
   { label: 'Arena 42', href: '/games/42/' },
 ]
 
 const normalizePath = (pathname) => {
   if (pathname !== '/' && pathname.endsWith('/')) {
-    return pathname.replace(/\/+$/, '')
+    return pathname.replace(/\/+$/, '').toLowerCase()
   }
 
-  return pathname
+  return pathname.toLowerCase()
 }
 
 const isActive = (currentPath, href) => {
@@ -32,7 +33,7 @@ export function renderHeader(currentPath, session) {
       return !session
     }
 
-    if (item.href === '/dashboard' || item.href.startsWith('/games/')) {
+    if (item.href === '/Games' || item.href === '/dashboard' || item.href.startsWith('/games/')) {
       return Boolean(session)
     }
 
