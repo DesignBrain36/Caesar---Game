@@ -29,6 +29,11 @@ const routes = [
     requiresAuth: true,
   },
   {
+    pattern: /^\/profile\/?$/,
+    load: () => import('./pages/profile/profile.js'),
+    requiresAuth: true,
+  },
+  {
     pattern: /^\/game\/start\/?$/,
     load: () => import('./pages/game-start/game-start.js'),
     requiresAuth: true,

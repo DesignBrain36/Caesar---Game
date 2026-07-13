@@ -5,6 +5,7 @@ const navigationItems = [
   { label: 'Login', href: '/login' },
   { label: 'Games', href: '/Games' },
   { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Profile', href: '/profile' },
   { label: 'Arena 42', href: '/games/42/' },
 ]
 
@@ -33,7 +34,7 @@ export function renderHeader(currentPath, session) {
       return !session
     }
 
-    if (item.href === '/Games' || item.href === '/dashboard' || item.href.startsWith('/games/')) {
+    if (item.href === '/Games' || item.href === '/dashboard' || item.href === '/profile' || item.href.startsWith('/games/')) {
       return Boolean(session)
     }
 

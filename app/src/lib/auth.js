@@ -32,6 +32,20 @@ export async function getCurrentSession() {
   return data.session ?? null
 }
 
+export async function getCurrentUser() {
+  if (!supabase) {
+    return null
+  }
+
+  const { data, error } = await supabase.auth.getUser()
+
+  if (error) {
+    return null
+  }
+
+  return data.user ?? null
+}
+
 export async function loginWithPassword(email, password) {
   if (!supabase) {
     return {
@@ -103,4 +117,84 @@ export function navigateTo(path, replace = false) {
 
 export function getSupabaseClient() {
   return supabase
+}
+
+export async function updateCurrentUserProfile({ nickname, avatarUrl, avatarPath }) {
+  if (!supabase) {
+    return {
+      error: {
+        message:
+          'Authentication is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in app/.env.',
+      },
+      user: null,
+    }
+  }
+
+  const payload = {
+    data: {
+      nickname,
+      avatar_url: avatarUrl,
+      avatar_path: avatarPath,
+    },
+  }
+
+  const { data, error } = await supabase.auth.updateUser(payload)
+
+  return {
+    error,
+    user: data.user ?? null,
+  }
+}
+
+export async function uploadAvatarFile(file, userId) {
+  if (!supabase) {
+    return {
+      error: {
+        message:
+          'Authentication is not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in app/.env.',
+      },
+      path: null,
+      publicUrl: null,
+    }
+  }
+
+  const fileExtension = file.name.includes('.') ? file.name.split('.').pop() : 'png'
+  const cleanExtension = String(fileExtension || 'png').toLowerCase().replace(/[^a-z0-9]/g, '') || 'png'
+  const avatarPath = `${userId}/${Date.now()}-${crypto.randomUUID()}.${cleanExtension}`
+
+  const { error: uploadError } = await supabase.storage.from('avatars').upload(avatarPath, file, {
+    upsert: true,
+    contentType: file.type || 'image/png',
+    cacheControl: '3600',
+  })
+
+  if (uploadError) {
+    return {
+      error: uploadError,
+      path: null,
+      publicUrl: null,
+    }
+  }
+
+  const { data } = supabase.storage.from('avatars').getPublicUrl(avatarPath)
+
+  return {
+    error: null,
+    path: avatarPath,
+    publicUrl: data.publicUrl,
+  }
+}
+
+export async function removeAvatarFile(avatarPath) {
+  if (!supabase || !avatarPath) {
+    return {
+      error: null,
+    }
+  }
+
+  const { error } = await supabase.storage.from('avatars').remove([avatarPath])
+
+  return {
+    error,
+  }
 }
