@@ -1,22 +1,27 @@
 import { renderFooter } from './components/footer/footer.js'
 import { renderHeader } from './components/header/header.js'
+import { getCurrentSession, logoutUser } from './lib/auth.js'
 
 const routes = [
   {
     pattern: /^\/$/,
     load: () => import('./pages/home/home.js'),
+    requiresAuth: false,
   },
   {
     pattern: /^\/login\/?$/,
     load: () => import('./pages/login/login.js'),
+    requiresAuth: false,
   },
   {
     pattern: /^\/dashboard\/?$/,
     load: () => import('./pages/dashboard/dashboard.js'),
+    requiresAuth: true,
   },
   {
     pattern: /^\/games\/([^/]+)\/?$/,
     load: () => import('./pages/game-detail/game-detail.js'),
+    requiresAuth: true,
   },
 ]
 
@@ -37,6 +42,7 @@ const findRoute = (pathname) => {
     if (match) {
       return {
         load: route.load,
+        requiresAuth: route.requiresAuth,
         params: {
           id: match[1],
         },
@@ -47,6 +53,7 @@ const findRoute = (pathname) => {
 
   return {
     load: routes[0].load,
+    requiresAuth: false,
     params: {},
     path: '/',
   }
@@ -62,15 +69,28 @@ const isSameOriginUrl = (href) => {
 
 export function createAppRouter({ headerMount, outlet, footerMount }) {
   const render = async () => {
-    const { load, params, path } = findRoute(window.location.pathname)
+    const route = findRoute(window.location.pathname)
+    const session = await getCurrentSession()
+
+    if (route.requiresAuth && !session) {
+      history.replaceState({}, '', '/login')
+      return render()
+    }
+
+    if (route.path === '/login' && session) {
+      history.replaceState({}, '', '/dashboard')
+      return render()
+    }
+
+    const { load, params, path } = route
     const pageModule = await load()
 
-    headerMount.innerHTML = renderHeader(path)
+    headerMount.innerHTML = renderHeader(path, session)
     outlet.innerHTML = pageModule.renderPage(params)
     footerMount.innerHTML = renderFooter()
     document.title = pageModule.pageTitle?.(params) ?? 'Caesar Game'
 
-    pageModule.setupPage?.(outlet, params)
+    pageModule.setupPage?.(outlet, params, { session })
   }
 
   const navigate = async (to, replace = false) => {
@@ -86,6 +106,14 @@ export function createAppRouter({ headerMount, outlet, footerMount }) {
   }
 
   document.addEventListener('click', (event) => {
+    const logoutButton = event.target.closest('[data-action="logout"]')
+
+    if (logoutButton) {
+      event.preventDefault()
+      void logoutUser().then(() => navigate('/', true))
+      return
+    }
+
     const link = event.target.closest('a[data-link]')
 
     if (!link || !isSameOriginUrl(link.href)) {

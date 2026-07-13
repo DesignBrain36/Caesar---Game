@@ -63,6 +63,26 @@
   background: linear-gradient(135deg, #efcc7b, #d6ac53);
 }
 
+.app-logout-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(159, 58, 48, 0.65);
+  padding-inline: 0.95rem;
+  font-size: 0.92rem;
+  color: #ffd8d0;
+  background: rgba(159, 58, 48, 0.17);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.app-logout-btn:hover,
+.app-logout-btn:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(239, 121, 105, 0.92);
+  background: rgba(159, 58, 48, 0.34);
+}
+
 @media (max-width: 768px) {
   .app-brand {
     letter-spacing: 0.05em;

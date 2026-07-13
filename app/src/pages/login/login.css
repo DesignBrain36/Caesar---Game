@@ -5,3 +5,61 @@
 .login-note {
   background: rgba(30, 25, 21, 0.52);
 }
+
+.login-mode-switch {
+  display: inline-flex;
+  border-radius: 999px;
+  border: 1px solid rgba(214, 172, 83, 0.36);
+  padding: 0.18rem;
+  background: rgba(30, 23, 20, 0.65);
+}
+
+.login-mode-btn {
+  border-radius: 999px;
+  border: 0;
+  color: #e8d7b7;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.9rem;
+}
+
+.login-mode-btn.active {
+  background: linear-gradient(135deg, #efcc7b, #d6ac53);
+  color: #21170d;
+}
+
+.login-mode-btn:hover,
+.login-mode-btn:focus-visible {
+  color: #fff3da;
+}
+
+.auth-status {
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+  padding: 0.55rem 0.75rem;
+  min-height: 2.25rem;
+  font-size: 0.92rem;
+}
+
+.auth-status.is-neutral {
+  background: rgba(47, 95, 112, 0.22);
+  border-color: rgba(80, 150, 173, 0.44);
+  color: #cce7f1;
+}
+
+.auth-status.is-success {
+  background: rgba(62, 130, 74, 0.24);
+  border-color: rgba(100, 186, 116, 0.56);
+  color: #dbffe2;
+}
+
+.auth-status.is-error {
+  background: rgba(159, 58, 48, 0.28);
+  border-color: rgba(226, 106, 92, 0.62);
+  color: #ffe0da;
+}
+
+.login-alert {
+  background: rgba(89, 62, 20, 0.56);
+  border-color: rgba(239, 204, 123, 0.56);
+  color: #ffe8b6;
+}

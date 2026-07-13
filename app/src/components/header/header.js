@@ -26,7 +26,19 @@ const isActive = (currentPath, href) => {
   return normalizedPath === normalizedHref || normalizedPath.startsWith(`${normalizedHref}/`)
 }
 
-export function renderHeader(currentPath) {
+export function renderHeader(currentPath, session) {
+  const visibleNavigationItems = navigationItems.filter((item) => {
+    if (item.href === '/login') {
+      return !session
+    }
+
+    if (item.href === '/dashboard' || item.href.startsWith('/games/')) {
+      return Boolean(session)
+    }
+
+    return true
+  })
+
   return `
     <nav class="navbar navbar-expand-lg app-header">
       <div class="container-fluid px-3 px-lg-4 py-3">
@@ -39,7 +51,7 @@ export function renderHeader(currentPath) {
         </a>
 
         <div class="navbar-nav ms-auto flex-row flex-wrap justify-content-end gap-2">
-          ${navigationItems
+          ${visibleNavigationItems
             .map(
               (item) => `
                 <a
@@ -52,6 +64,12 @@ export function renderHeader(currentPath) {
               `,
             )
             .join('')}
+
+          ${
+            session
+              ? '<button class="btn app-logout-btn" type="button" data-action="logout"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>Logout</button>'
+              : ''
+          }
         </div>
       </div>
     </nav>
