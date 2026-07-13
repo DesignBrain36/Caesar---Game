@@ -4,7 +4,7 @@ const navigationItems = [
   { label: 'Home', href: '/' },
   { label: 'Login', href: '/login' },
   { label: 'Dashboard', href: '/dashboard' },
-  { label: 'Game 42', href: '/games/42/' },
+  { label: 'Arena 42', href: '/games/42/' },
 ]
 
 const normalizePath = (pathname) => {
@@ -30,8 +30,12 @@ export function renderHeader(currentPath) {
   return `
     <nav class="navbar navbar-expand-lg app-header">
       <div class="container-fluid px-3 px-lg-4 py-3">
-        <a class="navbar-brand app-brand fw-semibold text-white" href="/" data-link>
-          Caesar Game
+        <a class="navbar-brand app-brand fw-semibold" href="/" data-link>
+          <span class="app-brand__icon" aria-hidden="true"><i class="bi bi-bank"></i></span>
+          <span>
+            Caesar Numerus
+            <small>Mathematica Maxima</small>
+          </span>
         </a>
 
         <div class="navbar-nav ms-auto flex-row flex-wrap justify-content-end gap-2">
