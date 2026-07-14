@@ -1,6 +1,6 @@
 import { renderFooter } from './components/footer/footer.js'
 import { renderHeader } from './components/header/header.js'
-import { getCurrentSession, logoutUser } from './lib/auth.js'
+import { getCurrentSession, hasAdminRole, logoutUser } from './lib/auth.js'
 
 const routes = [
   {
@@ -32,6 +32,12 @@ const routes = [
     pattern: /^\/profile\/?$/,
     load: () => import('./pages/profile/profile.js'),
     requiresAuth: true,
+  },
+  {
+    pattern: /^\/admin\/?$/,
+    load: () => import('./pages/admin/admin.js'),
+    requiresAuth: true,
+    requiresAdmin: true,
   },
   {
     pattern: /^\/game\/start\/?$/,
@@ -73,6 +79,7 @@ const findRoute = (pathname) => {
       return {
         load: route.load,
         requiresAuth: route.requiresAuth,
+        requiresAdmin: route.requiresAdmin ?? false,
         params: {
           id: match[1],
         },
@@ -84,6 +91,7 @@ const findRoute = (pathname) => {
   return {
     load: routes[0].load,
     requiresAuth: false,
+    requiresAdmin: false,
     params: {},
     path: '/',
   }
@@ -101,9 +109,15 @@ export function createAppRouter({ headerMount, outlet, footerMount }) {
   const render = async () => {
     const route = findRoute(window.location.pathname)
     const session = await getCurrentSession()
+    const isAdmin = hasAdminRole(session?.user)
 
     if (route.requiresAuth && !session) {
       history.replaceState({}, '', '/login')
+      return render()
+    }
+
+    if (route.requiresAdmin && !isAdmin) {
+      history.replaceState({}, '', session ? '/dashboard' : '/login')
       return render()
     }
 

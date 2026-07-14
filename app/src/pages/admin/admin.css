@@ -1,0 +1,71 @@
+.admin-page .nav-tabs {
+  border-bottom-color: rgba(214, 172, 83, 0.28);
+}
+
+.admin-page .nav-tabs .nav-link {
+  color: var(--ink-soft);
+  border: 0;
+  border-bottom: 2px solid transparent;
+}
+
+.admin-page .nav-tabs .nav-link:hover,
+.admin-page .nav-tabs .nav-link:focus-visible {
+  color: var(--ink);
+  border-bottom-color: rgba(214, 172, 83, 0.4);
+}
+
+.admin-page .nav-tabs .nav-link.active {
+  color: #ffdf9a;
+  background: transparent;
+  border-bottom-color: var(--gold-hot);
+}
+
+.admin-pane {
+  display: none;
+}
+
+.admin-pane.active {
+  display: block;
+}
+
+.admin-editor {
+  border: 1px solid rgba(214, 172, 83, 0.22);
+  border-radius: 1rem;
+  background: rgba(19, 15, 22, 0.54);
+}
+
+.admin-table-wrap {
+  border: 1px solid rgba(214, 172, 83, 0.18);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.admin-table {
+  margin-bottom: 0;
+}
+
+.admin-table thead th {
+  color: var(--ink-soft);
+  border-bottom-color: rgba(214, 172, 83, 0.18);
+}
+
+.admin-table td,
+.admin-table th {
+  vertical-align: middle;
+}
+
+.admin-status {
+  min-height: 1.5rem;
+}
+
+.admin-status.is-error {
+  color: #ff8a80;
+}
+
+.admin-status.is-success {
+  color: #95f2b4;
+}
+
+.admin-status.is-neutral {
+  color: var(--ink-soft);
+}

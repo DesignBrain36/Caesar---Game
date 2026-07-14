@@ -119,6 +119,15 @@ export function getSupabaseClient() {
   return supabase
 }
 
+export function hasAdminRole(userOrSession) {
+  const user = userOrSession?.user ?? userOrSession
+  const appMetadata = user?.app_metadata ?? {}
+  const roleValue = appMetadata.role ?? user?.role ?? ''
+  const rolesValue = appMetadata.roles
+
+  return roleValue === 'admin' || (Array.isArray(rolesValue) && rolesValue.includes('admin'))
+}
+
 export async function updateCurrentUserProfile({ nickname, avatarUrl, avatarPath }) {
   if (!supabase) {
     return {

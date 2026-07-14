@@ -1,4 +1,4 @@
-import { getCurrentSession, getSupabaseClient } from './auth.js'
+import { getCurrentSession, getSupabaseClient, hasAdminRole } from './auth.js'
 
 function toInt(value) {
   const parsed = Number.parseInt(String(value), 10)
@@ -32,9 +32,18 @@ async function getCurrentUserId() {
   return session?.user?.id ?? null
 }
 
+async function getCurrentAccessContext() {
+  const session = await getCurrentSession()
+
+  return {
+    ownerId: session?.user?.id ?? null,
+    isAdmin: hasAdminRole(session?.user),
+  }
+}
+
 export async function fetchUserGames() {
   const supabase = getSupabaseClient()
-  const ownerId = await getCurrentUserId()
+  const { ownerId, isAdmin } = await getCurrentAccessContext()
 
   if (!supabase || !ownerId) {
     return {
@@ -43,11 +52,16 @@ export async function fetchUserGames() {
     }
   }
 
-  const { data: games, error: gamesError } = await supabase
+  let gamesQuery = supabase
     .from('games')
-    .select('id, total_points, achieved_level, started_at, finished_at, current_question_id')
-    .eq('owner', ownerId)
+    .select('id, owner, total_points, achieved_level, started_at, finished_at, current_question_id')
     .order('started_at', { ascending: false })
+
+  if (!isAdmin) {
+    gamesQuery = gamesQuery.eq('owner', ownerId)
+  }
+
+  const { data: games, error: gamesError } = await gamesQuery
 
   if (gamesError) {
     return {
@@ -152,7 +166,7 @@ export async function createNewGame() {
 
 export async function fetchGameDetails(gameId) {
   const supabase = getSupabaseClient()
-  const ownerId = await getCurrentUserId()
+  const { ownerId, isAdmin } = await getCurrentAccessContext()
   const gameNumericId = toInt(gameId)
 
   if (!supabase || !ownerId || !gameNumericId) {
@@ -165,12 +179,16 @@ export async function fetchGameDetails(gameId) {
     }
   }
 
-  const { data: game, error: gameError } = await supabase
+  let gameQuery = supabase
     .from('games')
-    .select('id, total_points, achieved_level, started_at, finished_at, current_question_id')
+    .select('id, owner, total_points, achieved_level, started_at, finished_at, current_question_id')
     .eq('id', gameNumericId)
-    .eq('owner', ownerId)
-    .maybeSingle()
+
+  if (!isAdmin) {
+    gameQuery = gameQuery.eq('owner', ownerId)
+  }
+
+  const { data: game, error: gameError } = await gameQuery.maybeSingle()
 
   if (gameError) {
     return {
@@ -292,7 +310,7 @@ export async function fetchGameDetails(gameId) {
 
 export async function submitGameAnswer({ gameId, answerId }) {
   const supabase = getSupabaseClient()
-  const ownerId = await getCurrentUserId()
+  const { ownerId, isAdmin } = await getCurrentAccessContext()
   const gameNumericId = toInt(gameId)
   const answerNumericId = toInt(answerId)
 
@@ -306,12 +324,16 @@ export async function submitGameAnswer({ gameId, answerId }) {
     }
   }
 
-  const { data: game, error: gameError } = await supabase
+  let gameQuery = supabase
     .from('games')
-    .select('id, total_points, achieved_level, started_at, finished_at, current_question_id')
+    .select('id, owner, total_points, achieved_level, started_at, finished_at, current_question_id')
     .eq('id', gameNumericId)
-    .eq('owner', ownerId)
-    .maybeSingle()
+
+  if (!isAdmin) {
+    gameQuery = gameQuery.eq('owner', ownerId)
+  }
+
+  const { data: game, error: gameError } = await gameQuery.maybeSingle()
 
   if (gameError || !game || !game.current_question_id) {
     return {
@@ -366,11 +388,13 @@ export async function submitGameAnswer({ gameId, answerId }) {
     finished_at: correct && nextQuestion ? game.finished_at : new Date().toISOString(),
   }
 
-  const { error: updateError } = await supabase
-    .from('games')
-    .update(payload)
-    .eq('id', game.id)
-    .eq('owner', ownerId)
+  let updateQuery = supabase.from('games').update(payload).eq('id', game.id)
+
+  if (!isAdmin) {
+    updateQuery = updateQuery.eq('owner', ownerId)
+  }
+
+  const { error: updateError } = await updateQuery
 
   if (updateError) {
     return {
@@ -407,7 +431,7 @@ export async function submitGameAnswer({ gameId, answerId }) {
 
 export async function deleteUserGame(gameId) {
   const supabase = getSupabaseClient()
-  const ownerId = await getCurrentUserId()
+  const { ownerId, isAdmin } = await getCurrentAccessContext()
   const gameNumericId = toInt(gameId)
 
   if (!supabase || !ownerId || !gameNumericId) {
@@ -418,11 +442,13 @@ export async function deleteUserGame(gameId) {
     }
   }
 
-  const { error } = await supabase
-    .from('games')
-    .delete()
-    .eq('id', gameNumericId)
-    .eq('owner', ownerId)
+  let deleteQuery = supabase.from('games').delete().eq('id', gameNumericId)
+
+  if (!isAdmin) {
+    deleteQuery = deleteQuery.eq('owner', ownerId)
+  }
+
+  const { error } = await deleteQuery
 
   return { error }
 }
